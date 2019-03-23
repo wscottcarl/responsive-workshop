@@ -1,0 +1,52 @@
+<script type="text/javascript"
+       src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+</script>
+<script type="text/javascript" 
+	src="~/lib/bootstrap/dist/js/bootstrap.js">
+</script>
+
+<h2>Bootstrap Sample</h2>
+
+<p>
+    <ul>
+        <li>
+            Find the average salary or wage for each job title within the organization for members with an organization level of 2 or greater.
+            <div id="linq-btn-1" request-enum="AveragePayPerJobTitle" class="btn btn-default request-btn">Show</div>
+            <div id="linq-results-1" request-enum="AveragePayPerJobTitle" class="hidden"></div>
+        </li>
+        <li>
+            Find the names of the products that have a customer rating of 3 or higher.
+            <div id="linq-btn-2" request-enum="ProductsWithHighCustomerRatings" class="btn btn-default request-btn">Show</div>
+            <div id="linq-results-2" request-enum="ProductsWithHighCustomerRatings" class="hidden"></div>
+        </li>
+    </ul>
+</p>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('.request-btn').click(function () {
+            var thisEnum = $(this).attr("request-enum");
+			
+            var results = $('#linq-results-' + thisEnum);
+			
+            var button = $('#linq-btn-' + thisEnum);
+
+            if (results.hasClass('hidden')) {
+                $.get("http://localhost:57369/Home/Query?queryType=" + thisEnum)
+                    .done(function (data) {
+                        results.html(data);
+                        results.removeClass('hidden');
+                        button.text("Hide");
+                    });
+            }
+
+            else {
+                results.addClass('hidden');
+                button.text("Show");
+            }
+        })
+    });
+</script>
+
